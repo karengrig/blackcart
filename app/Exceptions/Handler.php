@@ -2,8 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\ApiResponseHelper;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -23,8 +24,8 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (NotFoundHttpException $exception) {
+            return ApiResponseHelper::errorResponse('Resource not found.', code: 404);
         });
     }
 }
